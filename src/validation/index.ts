@@ -31,13 +31,16 @@ export const simplePasswordSchema = z
 
 /**
  * Phone number — accepts common formats including international (+1 555-123-4567,
- * +44 20 7946 0958) and local (555-123-4567, (555) 123-4567, 5551234567).
+ * +44 20 7946 0958) and local (555-123-4567, (555) 123-4567, 5551234567),
+ * and Philippine formats:
+ *   - Mobile:   09XX-XXX-XXXX  |  +639XX-XXX-XXXX
+ *   - Landline: (02) XXXX-XXXX |  02-XXXX-XXXX  |  (0XX) XXX-XXXX
  */
 export const phoneSchema = z
   .string()
   .min(1, "Phone number is required")
   .regex(
-    /^[+]?[\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,3}[)]?[-\s.]?[0-9]{3,4}[-\s.]?[0-9]{3,6}$/,
+    /^(?:(?:\+63|0)9\d{2}[-\s.]?\d{3}[-\s.]?\d{4}|(?:\+63|0)[2-9]\d?[-\s.]?\d{3,4}[-\s.]?\d{4}|\(0[2-9]\d?\)[-\s.]?\d{3,4}[-\s.]?\d{4}|[+]?[\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,3}[)]?[-\s.]?[0-9]{3,4}[-\s.]?[0-9]{3,6})$/,
     "Please enter a valid phone number"
   );
 

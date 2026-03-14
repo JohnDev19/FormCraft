@@ -38,7 +38,6 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
   });
 
   async function handleSubmit(data: LoginFormValues) {
-    // Simulate API call
     await new Promise((r) => setTimeout(r, 1200));
     console.log("Login data:", data);
     onSuccess?.(data);

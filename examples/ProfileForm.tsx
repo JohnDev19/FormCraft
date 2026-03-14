@@ -22,7 +22,6 @@ import {
   type ProfileFormValues,
 } from "formcraft";
 
-// Simulate fetching user data
 async function fetchUser(): Promise<ProfileFormValues> {
   await new Promise((r) => setTimeout(r, 1200));
   return {
@@ -52,7 +51,6 @@ export default function ProfileForm() {
     },
   });
 
-  // Load user data on mount
   useEffect(() => {
     fetchUser().then((data) => {
       form.reset(data);
@@ -60,10 +58,9 @@ export default function ProfileForm() {
     });
   }, [form]);
 
-  // Auto-save draft every 2 seconds while typing
   const { isSaving, lastSaved } = useFormAutoSave(form, {
     onSave: async (data) => {
-      // In a real app: await api.saveDraft(data)
+      // real app: await api.saveDraft(data)
       console.log("Auto-saved draft:", data);
     },
     debounce: 2000,
