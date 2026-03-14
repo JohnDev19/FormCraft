@@ -2,7 +2,7 @@
   "name": "@iamjohndev19/formcraft",
   "version": "1.0.0",
   "description": "A fully accessible, schema-validated, production-ready form component library for React & Next.js",
-  "author": "FormCraft Contributors",
+  "author": "FormCraft (iamjohndev19)",
   "license": "MIT",
   "keywords": [
     "react",
