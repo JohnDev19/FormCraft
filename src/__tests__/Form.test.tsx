@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
 import { z } from "zod";
@@ -13,6 +13,11 @@ interface TestFormProps {
   defaultValues?: Record<string, unknown>;
 }
 
+/**
+ * Basic form WITHOUT password toggle — avoids label ambiguity.
+ * showPasswordToggle adds aria-label="Show password" to the toggle button,
+ * causing getByLabelText(/password/i) to match both the label AND that button.
+ */
 function TestLoginForm({
   onSubmit = vi.fn(),
   schema,
@@ -38,14 +43,35 @@ function TestLoginForm({
         type="email"
         placeholder="you@example.com"
       />
+      {/* No showPasswordToggle — keeps "Password" label unique in the DOM */}
+      <Input
+        name="password"
+        control={form.control}
+        label="Password"
+        type="password"
+      />
+      <SubmitButton loading={form.formState.isSubmitting}>Sign in</SubmitButton>
+    </Form>
+  );
+}
+
+/**
+ * Dedicated form for testing the password toggle.
+ * Uses data-testid on the input so we can target it unambiguously
+ * even when the toggle button carries an aria-label containing "password".
+ */
+function TestPasswordToggleForm() {
+  const form = useFormCraft({ defaultValues: { password: "" } });
+  return (
+    <Form form={form} onSubmit={vi.fn()}>
       <Input
         name="password"
         control={form.control}
         label="Password"
         type="password"
         showPasswordToggle
+        data-testid="password-input"
       />
-      <SubmitButton loading={form.formState.isSubmitting}>Sign in</SubmitButton>
     </Form>
   );
 }
@@ -55,8 +81,8 @@ function TestLoginForm({
 describe("Form", () => {
   it("renders form fields correctly", () => {
     render(<TestLoginForm />);
-    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+    expect(screen.getByLabelText("Email")).toBeInTheDocument();
+    expect(screen.getByLabelText("Password")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /sign in/i })).toBeInTheDocument();
   });
 
@@ -77,7 +103,7 @@ describe("Form", () => {
     const user = userEvent.setup();
     render(<TestLoginForm />);
 
-    const emailInput = screen.getByLabelText(/email/i);
+    const emailInput = screen.getByLabelText("Email");
     await user.type(emailInput, "notanemail");
     await user.tab();
 
@@ -91,8 +117,8 @@ describe("Form", () => {
     const onSubmit = vi.fn();
     render(<TestLoginForm onSubmit={onSubmit} />);
 
-    await user.type(screen.getByLabelText(/email/i), "test@example.com");
-    await user.type(screen.getByLabelText(/password/i), "password123");
+    await user.type(screen.getByLabelText("Email"), "test@example.com");
+    await user.type(screen.getByLabelText("Password"), "password123");
     await user.click(screen.getByRole("button", { name: /sign in/i }));
 
     await waitFor(() => {
@@ -108,7 +134,7 @@ describe("Form", () => {
     const onSubmit = vi.fn();
     render(<TestLoginForm onSubmit={onSubmit} />);
 
-    await user.type(screen.getByLabelText(/email/i), "bad-email");
+    await user.type(screen.getByLabelText("Email"), "bad-email");
     await user.click(screen.getByRole("button", { name: /sign in/i }));
 
     await waitFor(() => {
@@ -118,9 +144,10 @@ describe("Form", () => {
 
   it("password toggle shows and hides password", async () => {
     const user = userEvent.setup();
-    render(<TestLoginForm />);
+    render(<TestPasswordToggleForm />);
 
-    const passwordInput = screen.getByLabelText(/password/i);
+    // Use data-testid — unambiguous even though toggle button has aria-label "Show password"
+    const passwordInput = screen.getByTestId("password-input");
     expect(passwordInput).toHaveAttribute("type", "password");
 
     const toggleBtn = screen.getByRole("button", { name: /show password/i });
@@ -137,7 +164,7 @@ describe("Input accessibility", () => {
   it("associates label with input via htmlFor/id", () => {
     render(<TestLoginForm />);
     const label = screen.getByText("Email");
-    const input = screen.getByLabelText(/email/i);
+    const input = screen.getByLabelText("Email");
     expect(label).toHaveAttribute("for", input.id);
   });
 
@@ -145,7 +172,7 @@ describe("Input accessibility", () => {
     const user = userEvent.setup();
     render(<TestLoginForm />);
 
-    const input = screen.getByLabelText(/email/i);
+    const input = screen.getByLabelText("Email");
     await user.type(input, "bad");
     await user.tab();
 

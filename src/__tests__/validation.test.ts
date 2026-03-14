@@ -47,9 +47,20 @@ describe("passwordSchema", () => {
 });
 
 describe("phoneSchema", () => {
-  it("accepts valid phone numbers", () => {
+  it("accepts local formats", () => {
     expect(phoneSchema.safeParse("555-123-4567").success).toBe(true);
+    expect(phoneSchema.safeParse("5551234567").success).toBe(true);
+    expect(phoneSchema.safeParse("(555) 123-4567").success).toBe(true);
+  });
+
+  it("accepts international formats", () => {
     expect(phoneSchema.safeParse("+1 (555) 123-4567").success).toBe(true);
+    expect(phoneSchema.safeParse("+44 20 7946 0958").success).toBe(true);
+  });
+
+  it("rejects clearly invalid values", () => {
+    expect(phoneSchema.safeParse("").success).toBe(false);
+    expect(phoneSchema.safeParse("abc").success).toBe(false);
   });
 });
 

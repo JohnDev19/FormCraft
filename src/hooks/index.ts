@@ -25,7 +25,7 @@ export function useFormPersist<TFieldValues extends FieldValues>(
 ) {
   const { watch, setValue, formState } = form;
 
-  // restore on mount
+  // Restore on mount
   useEffect(() => {
     try {
       const store = window[storage];
@@ -38,12 +38,12 @@ export function useFormPersist<TFieldValues extends FieldValues>(
         }
       });
     } catch {
-      // fail if storage is unavailable
+      // Silently fail if storage is unavailable
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // persist on change
+  // Persist on change
   useEffect(() => {
     const subscription = watch((values) => {
       try {
@@ -53,6 +53,7 @@ export function useFormPersist<TFieldValues extends FieldValues>(
         );
         store.setItem(key, JSON.stringify(filtered));
       } catch {
+        // Silently fail
       }
     });
     return () => subscription.unsubscribe();
@@ -62,6 +63,7 @@ export function useFormPersist<TFieldValues extends FieldValues>(
     try {
       window[storage].removeItem(key);
     } catch {
+      // Silently fail
     }
   }, [key, storage]);
 

@@ -152,7 +152,7 @@ refactor: extract useFieldId hook
 
 ## Reporting Bugs
 
-Open a [GitHub Issue](https://github.com/JohnDev19/formcraft/issues) with:
+Open a [GitHub Issue](https://github.com/formcraft/formcraft/issues) with:
 
 - FormCraft version
 - React / Next.js version

@@ -30,13 +30,14 @@ export const simplePasswordSchema = z
   .min(6, "Password must be at least 6 characters");
 
 /**
- * Phone number (E.164 compatible).
+ * Phone number — accepts common formats including international (+1 555-123-4567,
+ * +44 20 7946 0958) and local (555-123-4567, (555) 123-4567, 5551234567).
  */
 export const phoneSchema = z
   .string()
   .min(1, "Phone number is required")
   .regex(
-    /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/,
+    /^[+]?[\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,3}[)]?[-\s.]?[0-9]{3,4}[-\s.]?[0-9]{3,6}$/,
     "Please enter a valid phone number"
   );
 
