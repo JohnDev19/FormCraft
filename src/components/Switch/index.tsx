@@ -1,16 +1,17 @@
 "use client";
 
-import React, { useId } from "react";
+import { useId } from "react";
 import { Controller, FieldValues, FieldPath, Control } from "react-hook-form";
 import { cn } from "../../utils";
 
-export interface SwitchProps<TFieldValues extends FieldValues = FieldValues>
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "name" | "type"> {
+export interface SwitchProps<TFieldValues extends FieldValues = FieldValues> {
   name: FieldPath<TFieldValues>;
   control: Control<TFieldValues>;
   label: string;
   description?: string;
+  className?: string;
   wrapperClassName?: string;
+  disabled?: boolean;
 }
 
 /**
@@ -32,7 +33,6 @@ export function Switch<TFieldValues extends FieldValues = FieldValues>({
   className,
   wrapperClassName,
   disabled,
-  ...props
 }: SwitchProps<TFieldValues>) {
   const id = useId();
 
@@ -77,7 +77,6 @@ export function Switch<TFieldValues extends FieldValues = FieldValues>({
             )}
           </div>
 
-          {/* Switch track */}
           <button
             id={id}
             type="button"

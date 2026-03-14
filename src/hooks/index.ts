@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useCallback, useState } from "react";
-import { UseFormReturn, FieldValues, DefaultValues } from "react-hook-form";
+import { UseFormReturn, FieldValues } from "react-hook-form";
 import { getPasswordStrength } from "../validation";
 
 // ─── useFormPersist ────────────────────────────────────────────────────────────
