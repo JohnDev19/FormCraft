@@ -16,8 +16,8 @@ Thank you for your interest in contributing! This document explains how to get s
 
 ```bash
 # 1. Fork the repo on GitHub, then clone your fork
-git clone https://github.com/<your-username>/formcraft.git
-cd formcraft
+git clone https://github.com/JohnDev19/FormCraft.git
+cd FormCraft
 
 # 2. Install dependencies
 pnpm install
@@ -152,7 +152,7 @@ refactor: extract useFieldId hook
 
 ## Reporting Bugs
 
-Open a [GitHub Issue](https://github.com/formcraft/formcraft/issues) with:
+Open a [GitHub Issue](https://github.com/JohnDev19/FormCraft/issues) with:
 
 - FormCraft version
 - React / Next.js version

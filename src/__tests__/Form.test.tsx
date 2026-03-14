@@ -122,7 +122,11 @@ describe("Form", () => {
     await user.click(screen.getByRole("button", { name: /sign in/i }));
 
     await waitFor(() => {
-      expect(onSubmit).toHaveBeenCalledWith({
+      expect(onSubmit).toHaveBeenCalled();
+      // react-hook-form calls handleSubmit(onSubmit) which passes (data, event)
+      // check only the first argument — the validated form data
+      const [firstCallData] = onSubmit.mock.calls[0];
+      expect(firstCallData).toEqual({
         email: "test@example.com",
         password: "password123",
       });

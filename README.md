@@ -444,4 +444,4 @@ pnpm test      # run tests
 
 ## License
 
-MIT © FormCraft Contributors
+MIT © FormCraft (JohnDev19)
