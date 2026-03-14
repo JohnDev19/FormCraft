@@ -1,0 +1,12 @@
+src/
+examples/
+docs/
+.github/
+*.config.*
+*.test.*
+__tests__/
+coverage/
+.eslintrc*
+.prettierrc*
+tsconfig*
+vitest*
