@@ -16,7 +16,7 @@
     "components",
     "formcraft"
   ],
-  "homepage": "https://formcraft.dev",
+  "homepage": "https://formcraft-official.vercel.app/",
   "repository": {
     "type": "git",
     "url": "https://github.com/JohnDev19/FormCraft.git"
