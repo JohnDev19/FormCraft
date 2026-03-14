@@ -1,6 +1,6 @@
 {
   "name": "@iamjohndev19/formcraft",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A fully accessible, schema-validated, production-ready form component library for React & Next.js",
   "author": "FormCraft (iamjohndev19)",
   "license": "MIT",
