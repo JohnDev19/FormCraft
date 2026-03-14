@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useId, useState, forwardRef } from "react";
+import React, { useId, useState } from "react";
 import { Controller, FieldValues, FieldPath, Control } from "react-hook-form";
 import { FieldWrapper } from "../Form/FieldWrapper";
 import { cn } from "../../utils";
