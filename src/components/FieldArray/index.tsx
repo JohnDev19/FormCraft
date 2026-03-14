@@ -128,7 +128,7 @@ export function FieldArray<TFieldValues extends FieldValues = FieldValues>({
       {canAdd && (
         <button
           type="button"
-          onClick={() => append(defaultItem as TFieldValues[ArrayPath<TFieldValues>][number])}
+          onClick={() => append(defaultItem as unknown as TFieldValues[ArrayPath<TFieldValues>][number])}
           className={cn(
             "formcraft-field-array-add",
             "flex items-center gap-1.5 text-sm font-medium",

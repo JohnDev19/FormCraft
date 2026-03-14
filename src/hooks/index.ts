@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useCallback, useState } from "react";
-import { UseFormReturn, FieldValues } from "react-hook-form";
+import { UseFormReturn, FieldValues, FieldPath, PathValue } from "react-hook-form";
 import { getPasswordStrength } from "../validation";
 
 // ─── useFormPersist ────────────────────────────────────────────────────────────
@@ -23,7 +23,7 @@ export function useFormPersist<TFieldValues extends FieldValues>(
   form: UseFormReturn<TFieldValues>,
   { key, storage = "localStorage", excludeFields = [] }: UseFormPersistOptions
 ) {
-  const { watch, setValue, formState } = form;
+  const { watch, setValue } = form;
 
   // Restore on mount
   useEffect(() => {
@@ -32,9 +32,9 @@ export function useFormPersist<TFieldValues extends FieldValues>(
       const saved = store.getItem(key);
       if (!saved) return;
       const values = JSON.parse(saved) as Partial<TFieldValues>;
-      Object.entries(values).forEach(([field, value]) => {
+      (Object.keys(values) as FieldPath<TFieldValues>[]).forEach((field) => {
         if (!excludeFields.includes(field)) {
-          setValue(field as keyof TFieldValues & string, value as TFieldValues[keyof TFieldValues]);
+          setValue(field, values[field] as PathValue<TFieldValues, FieldPath<TFieldValues>>);
         }
       });
     } catch {
@@ -79,7 +79,7 @@ export function useFormPersist<TFieldValues extends FieldValues>(
  * const strength = usePasswordStrength(form.watch('password'));
  * // { score: 3, label: 'Good', color: 'text-blue-500', percentage: 75 }
  */
-export function usePasswordStrength(password: string = "") {
+export function usePasswordStrength(password = "") {
   const result = getPasswordStrength(password);
   return {
     ...result,
